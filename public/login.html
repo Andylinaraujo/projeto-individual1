@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGC</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./img/fav.ico">
+    <script src="./js/sessao.js"></script>
+</head>
+
+<body class="base">
+
+    <img src="./gif/ultrakill.gif" alt="gif" style="position:fixed;width:99%;height:99%;">
+    <div class="caixão">
+        <div class="caixalogin">
+            <h1 class="textologin">entre</h1>
+            <h2 class="textologin">Email</h2>
+            <input type="text" id="email_input">
+            <div id="erro"></div>
+            <h2 class="textologin">Senha</h2>
+            <input type="password" id="senha_input">
+            <div id="erro2"></div>
+            <a href="index.html"><img src="./img/voltaruk.png" alt="" class="cadastrologuin2"></a>
+            <div onclick="entrar()"><img src="./img/entraruk.png" alt="" class="cadastrologuin2"></div>
+        </div>
+        
+    </div>
+
+</body>
+
+</html>
+<script>
+    function entrar() {
+        // aguardar();
+
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            cardErro.style.display = "block"
+            mensagem_erro.innerHTML = "Todos os campos devem ser preenchidos para realizar o login!";
+            // finalizarAguardar();
+            return false;
+        }
+        else {
+            setInterval(sumirMensagem, 5000)
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.ID_USUARIO = json.id;
+                    sessionStorage.JOGO = JSON.stringify(json.JOGO)
+                    
+                    setTimeout(function () {
+                        window.location = "./index.html";
+                    }, 1000); // apenas para exibir o loading
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none"
+    }
+</script>

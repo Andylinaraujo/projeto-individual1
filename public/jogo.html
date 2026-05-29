@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGC</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./img/fav.ico">
+    <script src="./js/sessao.js"></script>
+</head>
+
+<body class="base">
+    <div class="navBar">
+
+        <a href="historia.html"><img src="./img/hisuk.png" alt="" class="dentro"></a>
+        <a href="jogos.html"><img src="./img/catuk.png" alt="" class="dentro"></a>
+        <a href="ranking.html"><img src="./img/rankuk.png" alt="" class="dentro"></a>
+        <a href="option.html"><img src="./img/optuk.png" alt="" class="dentro"></a>
+        <a href="index.html"><img src="./img/voltaruk.png" alt="" class="dentro"></a></a>
+        <div onclick="limparSessao()" id="logout"><img src="./img/sairuk.png" alt="" class="dentro"></div>
+        <a href="login.html" id="log"><img src="./img/loguk.png" alt="" class="dentro"></a>
+        <a href="cadastro.html" id="cad"><img src="./img/caduk.png" alt="" class="dentro"></a>
+    </div>
+    <div class="caixão4">
+        <div class="caixacli">
+            <div class="corpotexto">
+                <h1>Nome do jogo</h1>
+                <input type="text" id="idnome">
+                <h1>Descrição</h1>
+                <textarea name="" id="descricao" class="games"></textarea>
+                <h1>Tags</h1>
+                <div class="tag">
+                    
+                    <select id="idtag">
+                        <option value="">-- Selecione um Gênero --</option>
+
+                        <option value="acao">Ação</option>
+                        <option value="aventura">Aventura</option>
+                        <option value="acao-aventura">Ação e Aventura</option>
+                        <option value="rpg">RPG</option>
+                        <option value="mmorpg">MMORPG</option>
+                        <option value="jrpg">JRPG</option>
+                        <option value="estrategia">Estratégia</option>
+                        <option value="rts">Estratégia em Tempo Real (RTS)</option>
+                        <option value="estrategia-turnos">Estratégia por Turnos</option>
+                        <option value="simulacao">Simulação</option>
+                        <option value="simulacao-de-vida">Simulação de Vida</option>
+                        <option value="esportes">Esportes</option>
+                        <option value="corrida">Corrida</option>
+                        <option value="luta">Luta</option>
+                        <option value="plataforma">Plataforma</option>
+                        <option value="quebra-cabeca">Quebra-Cabeça</option>
+                        <option value="tiro">Tiro</option>
+                        <option value="fps">Tiro em Primeira Pessoa (FPS)</option>
+                        <option value="tps">Tiro em Terceira Pessoa (TPS)</option>
+                        <option value="battle-royale">Battle Royale</option>
+                        <option value="sobrevivencia">Sobrevivência</option>
+                        <option value="sandbox">Sandbox</option>
+                        <option value="mundo-aberto">Mundo Aberto</option>
+                        <option value="terror">Terror</option>
+                        <option value="furtividade">Furtividade</option>
+                        <option value="roguelike">Roguelike</option>
+                        <option value="roguelite">Roguelite</option>
+                        <option value="metroidvania">Metroidvania</option>
+                        <option value="ritmo">Ritmo</option>
+                        <option value="musica">Música</option>
+                        <option value="party-game">Party Game</option>
+                        <option value="arcade">Arcade</option>
+                        <option value="idle-clicker">Idle / Clicker</option>
+                        <option value="card-game">Jogo de Cartas</option>
+                        <option value="board-game">Jogo de Tabuleiro</option>
+                        <option value="visual-novel">Visual Novel</option>
+                        <option value="ficcao-interativa">Ficção Interativa</option>
+                        <option value="educacional">Educacional</option>
+                        <option value="trivia">Trivia</option>
+                        <option value="tower-defense">Tower Defense</option>
+                        <option value="hack-and-slash">Hack and Slash</option>
+                        <option value="beat-em-up">Beat 'em Up</option>
+                        <option value="bullet-hell">Bullet Hell</option>
+                        <option value="survival-horror">Survival Horror</option>
+                        <option value="city-builder">Construtor de Cidades</option>
+                        <option value="colony-sim">Simulação de Colônia</option>
+                        <option value="dating-sim">Simulação de Namoro</option>
+                        <option value="tactical-rpg">RPG Tático</option>
+                        <option value="auto-battler">Auto Battler</option>
+                        <option value="gacha">Gacha</option>
+                        <option value="moba">MOBA</option>
+                    </select>
+                    <button onclick="add()" class="tag">+</button>
+                    <button onclick="rem()" class="tag">-</button>
+                    <div id="div_tag" class="tag"></div>
+                </div>
+                <h1>links de download</h1>
+                <input type="url" id="idlink" class="">
+                <button onclick="addlink()" class="tag">+</button>
+                <button onclick="remlink()" class="tag">-</button>
+                <div id="div_link" class="tag"></div>
+                <button onclick="registrar()" class="cria">criar pagina</button>
+            </div>
+            <div class="game">
+                <h1>url de imagens</h1>
+                <input type="url" id="idimagem" class="img">
+                <button onclick="addimg()" class="tag">+</button>
+                <button onclick="remimg()" class="tag">-</button>
+                <div id="div_imagem"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
+<script>
+    let listalink=[]
+    let listaimg= []
+    let lista = []
+    function add() {
+        lista.push(idtag.value)
+        div_tag.innerHTML = lista
+    }
+    function addimg() {
+        listaimg.push(idimagem.value)
+        div_imagem.innerHTML = ""
+        for(let i=0; i<listaimg.length;i++){
+        div_imagem.innerHTML += `<img src="${listaimg[i]}" alt="" class="games">`
+        }
+    }
+        function addlink() {
+        listalink.push(idlink.value)
+        div_link.innerHTML = ""
+        for(let i=0; i<listalink.length;i++){
+        div_link.innerHTML += `${listalink[i]}<br>`
+        }
+    }
+        function rem() {
+        lista.pop()
+        div_tag.innerHTML = lista
+    }
+    function remimg() {
+        listaimg.pop()
+        div_imagem.innerHTML = ""
+        for(let i=0; i<listaimg.length;i++){
+        div_imagem.innerHTML += `<img src="${listaimg[i]}" alt="" class="games">`
+        }
+    }
+        function remlink() {
+        listalink.pop()
+        div_link.innerHTML = ""
+        for(let i=0; i<listalink.length;i++){
+        div_link.innerHTML += `${listalink[i]}<br>`
+        }
+    }
+    if (email != null && nome != null) {
+        document.getElementById("log").style.display = "none";
+        document.getElementById("cad").style.display = "none";
+    }
+    else {
+        document.getElementById("logout").style.display = "none";
+
+    }
+    function registrar() {
+        fetch("/catalogo/registrar",{
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nomeServer: idnome.value,
+                        descricaoServer: descricao.value,
+                        tagServer: idtag.value,
+                        imagemServer: idimagem.value,
+                        linksServer: idlink.value,
+
+                    }),
+                })
+                .then(function (resposta) {
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+          cardErro.style.display = "block";
+
+          mensagem_erro.innerHTML =
+            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
+
+          setTimeout(() => {
+            window.location = "login.html";
+          }, "2000");
+
+          limparFormulario();
+          finalizarAguardar();
+        } else {
+          throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+      })
+      .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        finalizarAguardar();
+      });
+
+    return false;
+        
+    }
+
+</script>

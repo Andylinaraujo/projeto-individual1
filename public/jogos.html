@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGC</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./img/fav.ico">
+    <script src="./js/sessao.js"></script>
+</head>
+
+<body class="base">
+    <img src="./img/greed_pyramid.webp" alt="img" style="position:fixed;width:100%;height:100%;">
+    <div class="navBar">
+
+        <a href="historia.html"><img src="./img/hisuk.png" alt="" class="dentro"></a>
+        <a href="jogos.html"><img src="./img/catuk.png" alt="" class="dentro"></a>
+        <a href="ranking.html"><img src="./img/rankuk.png" alt="" class="dentro"></a>
+        <a href="option.html"><img src="./img/optuk.png" alt="" class="dentro"></a>
+        <a href="index.html"><img src="./img/voltaruk.png" alt="" class="dentro"></a></a>
+        <div onclick="limparSessao()" id="logout"><img src="./img/sairuk.png" alt="" class="dentro"></div>
+        <a href="login.html" id="log"><img src="./img/loguk.png" alt="" class="dentro"></a>
+        <a href="cadastro.html" id="cad"><img src="./img/caduk.png" alt="" class="dentro"></a>
+    </div>
+    <div class="caixão4">
+        <div class="algumacoisaemcima">
+            <h5 class="texto">Descubra jogos:</h5>
+            <a href="jogo.html" class="cria"><img src="./img/criaruk.png" alt="" class="criar"></a>
+        </div>
+        <div class="caixajog" id="inseridos">
+            <div class="jogos">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+    if (email != null && nome != null) {
+        document.getElementById("log").style.display = "none";
+        document.getElementById("cad").style.display = "none";
+    }
+    else {
+        document.getElementById("logout").style.display = "none";
+
+    }
+    document.getElementById("inseridos").innerHTML +=
+        `<a href="" class="jogo">
+                    <img src="${imagem}" alt="" class="jogo">
+                </a>
+                `
+</script>
