@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGC</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="./img/fav.ico">
+    <script src="./js/sessao.js"></script>
+</head>
+
+<body class="base" onload="carregarContagem()">
+    <div class="navBar">
+
+        <a href="jogos.html"><img src="./img/catuk.png" alt="" class="dentro"></a>
+        <a href="ranking.html"><img src="./img/rankuk.png" alt="" class="dentro"></a>
+        <a href="option.html"><img src="./img/optuk.png" alt="" class="dentro"></a>
+        <a href="index.html"><img src="./img/voltaruk.png" alt="" class="dentro"></a>
+        <div onclick="limparSessao()" id="logout"><img src="./img/sairuk.png" alt="" class="dentro"></div>
+        <a href="login.html" id="log"><img src="./img/loguk.png" alt="" class="dentro"></a>
+        <a href="cadastro.html" id="cad"><img src="./img/caduk.png" alt="" class="dentro"></a>
+    </div>
+    <div class="caixão4">
+        <div class="caixacli">
+            <div class="corpotexto">
+                <h1 id="nomeJogo" class="gamesedu"></h1>
+                <h2 class="gamesedu">Descrição</h2>
+                <p id="descricaoJogo" class="gamesedu"></p>
+                <h2 class="gamesedu">Tags</h2>
+                <div class="tag">
+
+                    <div id="tags"></div>
+                </div>
+                <h2 class="gamesedu">links de download</h2>
+                <div id="downloads"></div>
+
+                <button class="rating-btn like-btn" aria-label="Like" >
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z" />
+                    </svg>
+                    <span class="count"></span>
+                </button>
+
+                <button class="rating-btn dislike-btn" aria-label="Dislike">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M19 3h4v12h-4V3zM2 10c0 .26.05.5.14.73l3.02 7.05c.3.72 1.01 1.22 1.84 1.22h9c1.1 0 2-.9 2-2V9c0-.55-.22-1.05-.59-1.41L10.83 1l-.44 1.06c-.27.27-.44.65-.44 1.06l.03.32L10.93 8H4.62c-1.1 0-2 .9-2 2z" />
+                    </svg>
+                    <span class="count"></span>
+                </button>
+                </div>  
+            <div class="game">
+                <h2>url de imagens</h2>
+                <div id="imagens"></div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>
+<script>
+    if (email != null && nome != null) {
+        document.getElementById("log").style.display = "none";
+        document.getElementById("cad").style.display = "none";
+    }
+    else {
+        document.getElementById("logout").style.display = "none";
+
+    }
+    const params = new URLSearchParams(window.location.search);
+    const idJogo = params.get("id");
+
+    fetch(`/catalogo/buscar/${idJogo}`)
+        .then(res => res.json())
+        .then(resultado => {
+
+            const jogo = resultado[0];
+
+            document.getElementById("nomeJogo").innerHTML =
+                jogo.nome;
+
+            document.getElementById("descricaoJogo").innerHTML =
+                jogo.descricao;
+
+            document.getElementById("tags").innerHTML =
+                jogo.tag.replaceAll(";", ", ");
+
+            document.getElementById("downloads").innerHTML =
+                jogo.links
+                    .split(";")
+                    .map(link =>
+                        `<a href="${link}" target="_blank">${link}</a>`
+                    )
+                    .join("<br>");
+
+            let listaImagens = jogo.imagem.split(";");
+
+            document.getElementById("imagens").innerHTML = "";
+
+            for (let i = 0; i < listaImagens.length; i++) {
+
+                document.getElementById("imagens").innerHTML += `
+            <img src="${listaImagens[i]}" class="games">
+        `;
+            }
+        })
+        .catch(erro => {
+            console.error(erro);
+        });
+    fetch(`/catalogo/buscar/${idJogo}`)
+        .then(res => res.json())
+        .then(resultado => {
+            console.log(resultado);
+        });
+const idUsuario = sessionStorage.ID_USUARIO;
+const likeBtn = document.querySelector(".like-btn");
+const dislikeBtn = document.querySelector(".dislike-btn");
+
+likeBtn.addEventListener('click', () => {
+
+    fetch("/avaliacao/votar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkJogo: idJogo,
+            fkUsuario: idUsuario,
+            tipo: "L"
+        })
+    })
+    .then(res => res.json())
+    .then(resposta => {
+        console.log(resposta);
+    });
+});
+
+dislikeBtn.addEventListener('click', () => {
+
+    fetch("/avaliacao/votar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            fkJogo: idJogo,
+            fkUsuario: idUsuario,
+            tipo: "D"
+        })
+    })
+    .then(res => res.json())
+    .then(resposta => {
+        console.log(resposta);
+    });
+});
+fetch(`/avaliacao/contagem/${idJogo}`)
+.then(res => res.json())
+.then(dados => {
+
+    document.querySelector(".like-btn .count").innerHTML =
+        dados.likes || 0;
+
+    document.querySelector(".dislike-btn .count").innerHTML =
+        dados.dislikes || 0;
+
+});
+function carregarContagem() {
+
+    fetch(`/avaliacao/contagem/${idJogo}`)
+    .then(res => res.json())
+    .then(dados => {
+
+        document.querySelector(".like-btn .count").innerHTML =
+            dados.likes || 0;
+
+        document.querySelector(".dislike-btn .count").innerHTML =
+            dados.dislikes || 0;
+
+    })
+    .catch(erro => console.log(erro));
+}
+setInterval(carregarContagem, 2000);
+fetch("/avaliacao/votar", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        fkJogo: idJogo,
+        fkUsuario: idUsuario,
+        tipo: "L"
+    })
+})
+.then(() => {
+    carregarContagem();
+});
+</script>

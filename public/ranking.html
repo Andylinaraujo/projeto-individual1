@@ -16,7 +16,7 @@
     <img src=" ./img/lust-city.webp" alt="img" style="position:fixed;width:100%;height:100%;">
     <div class="caixão3">
         <div class="navBar">
-            <a href="historia.html"><img src="./img/hisuk.png" alt="" class="dentro"></a>
+
             <a href="jogos.html"><img src="./img/catuk.png" alt="" class="dentro"></a>
             <a href="ranking.html"><img src="./img/rankuk.png" alt="" class="dentro"></a>
             <a href="option.html"><img src="./img/optuk.png" alt="" class="dentro"></a>
@@ -28,68 +28,11 @@
 
         <h1>Jogos mais bem avaliados</h1>
         <div class="caixanesessaria">
-            <select id="idtag">
-                <option value="">-- Selecione um Gênero --</option>
-
-                <option value="acao">Ação</option>
-                <option value="aventura">Aventura</option>
-                <option value="acao-aventura">Ação e Aventura</option>
-                <option value="rpg">RPG</option>
-                <option value="mmorpg">MMORPG</option>
-                <option value="jrpg">JRPG</option>
-                <option value="estrategia">Estratégia</option>
-                <option value="rts">Estratégia em Tempo Real (RTS)</option>
-                <option value="estrategia-turnos">Estratégia por Turnos</option>
-                <option value="simulacao">Simulação</option>
-                <option value="simulacao-de-vida">Simulação de Vida</option>
-                <option value="esportes">Esportes</option>
-                <option value="corrida">Corrida</option>
-                <option value="luta">Luta</option>
-                <option value="plataforma">Plataforma</option>
-                <option value="quebra-cabeca">Quebra-Cabeça</option>
-                <option value="tiro">Tiro</option>
-                <option value="fps">Tiro em Primeira Pessoa (FPS)</option>
-                <option value="tps">Tiro em Terceira Pessoa (TPS)</option>
-                <option value="battle-royale">Battle Royale</option>
-                <option value="sobrevivencia">Sobrevivência</option>
-                <option value="sandbox">Sandbox</option>
-                <option value="mundo-aberto">Mundo Aberto</option>
-                <option value="terror">Terror</option>
-                <option value="furtividade">Furtividade</option>
-                <option value="roguelike">Roguelike</option>
-                <option value="roguelite">Roguelite</option>
-                <option value="metroidvania">Metroidvania</option>
-                <option value="ritmo">Ritmo</option>
-                <option value="musica">Música</option>
-                <option value="party-game">Party Game</option>
-                <option value="arcade">Arcade</option>
-                <option value="idle-clicker">Idle / Clicker</option>
-                <option value="card-game">Jogo de Cartas</option>
-                <option value="board-game">Jogo de Tabuleiro</option>
-                <option value="visual-novel">Visual Novel</option>
-                <option value="ficcao-interativa">Ficção Interativa</option>
-                <option value="educacional">Educacional</option>
-                <option value="trivia">Trivia</option>
-                <option value="tower-defense">Tower Defense</option>
-                <option value="hack-and-slash">Hack and Slash</option>
-                <option value="beat-em-up">Beat 'em Up</option>
-                <option value="bullet-hell">Bullet Hell</option>
-                <option value="survival-horror">Survival Horror</option>
-                <option value="city-builder">Construtor de Cidades</option>
-                <option value="colony-sim">Simulação de Colônia</option>
-                <option value="dating-sim">Simulação de Namoro</option>
-                <option value="tactical-rpg">RPG Tático</option>
-                <option value="auto-battler">Auto Battler</option>
-                <option value="gacha">Gacha</option>
-                <option value="moba">MOBA</option>
-            </select>
             <h1>Mês</h1>
             <div class="placements">
-                <div class="segundo"><img src="./img/v1plushie.jpeg" alt="" class="imgrank">
-                    <h5>70</h5>
-                </div>
-                <div class="primeiro"></div>
-                <div class="terceiro"></div>
+                <div class="segundo" id="segundoMes"></div>
+                <div class="primeiro" id="primeiroMes"></div>
+                <div class="terceiro" id="terceiroMes"></div>
             </div>
             <div class="dash">
 
@@ -121,4 +64,80 @@
         document.getElementById("logout").style.display = "none";
 
     }
+    if(dados.length >= 3){
+
+    primeiroMes.innerHTML = `
+        <h2>${dados[0].pontuacao}</h2>
+        <p>${dados[0].nome}</p>
+    `;
+
+    segundoMes.innerHTML = `
+        <h2>${dados[1].pontuacao}</h2>
+        <p>${dados[1].nome}</p>
+    `;
+
+    terceiroMes.innerHTML = `
+        <h2>${dados[2].pontuacao}</h2>
+        <p>${dados[2].nome}</p>
+    `;
+}
+    else{fetch("/avaliacao/topMes")
+.then(res => res.json())
+.then(dados => {
+
+    primeiroMes.innerHTML = `
+        <h2>${dados[0].pontuacao}</h2>
+        <p>${dados[0].nome}</p>
+    `;
+
+    segundoMes.innerHTML = `
+        <h2>${dados[1].pontuacao}</h2>
+        <p>${dados[1].nome}</p>
+    `;
+
+    terceiroMes.innerHTML = `
+        <h2>${dados[2].pontuacao}</h2>
+        <p>${dados[2].nome}</p>
+    `;
+
+});
+    }
+    if(dados.length >= 3){
+    primeiroSemana.innerHTML = `
+        <h2>${dados[0].pontuacao}</h2>
+        <p>${dados[0].nome}</p>
+    `;
+
+    segundoSemana.innerHTML = `
+        <h2>${dados[1].pontuacao}</h2>
+        <p>${dados[1].nome}</p>
+    `;
+
+    terceiroSemana.innerHTML = `
+        <h2>${dados[2].pontuacao}</h2>
+        <p>${dados[2].nome}</p>
+    `;
+}
+    else{fetch("/avaliacao/topSemana")
+.then(res => res.json())
+.then(dados => {
+
+    primeiroSemana.innerHTML = `
+        <h2>${dados[0].pontuacao}</h2>
+        <p>${dados[0].nome}</p>
+    `;
+
+    segundoSemana.innerHTML = `
+        <h2>${dados[1].pontuacao}</h2>
+        <p>${dados[1].nome}</p>
+    `;
+
+    terceiroSemana.innerHTML = `
+        <h2>${dados[2].pontuacao}</h2>
+        <p>${dados[2].nome}</p>
+    `;
+
+});
+    }
+    
 </script>

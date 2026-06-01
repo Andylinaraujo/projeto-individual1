@@ -14,11 +14,10 @@
 <body class="base">
     <div class="navBar">
 
-        <a href="historia.html"><img src="./img/hisuk.png" alt="" class="dentro"></a>
         <a href="jogos.html"><img src="./img/catuk.png" alt="" class="dentro"></a>
         <a href="ranking.html"><img src="./img/rankuk.png" alt="" class="dentro"></a>
         <a href="option.html"><img src="./img/optuk.png" alt="" class="dentro"></a>
-        <a href="index.html"><img src="./img/voltaruk.png" alt="" class="dentro"></a></a>
+        <a href="index.html"><img src="./img/voltaruk.png" alt="" class="dentro"></a>
         <div onclick="limparSessao()" id="logout"><img src="./img/sairuk.png" alt="" class="dentro"></div>
         <a href="login.html" id="log"><img src="./img/loguk.png" alt="" class="dentro"></a>
         <a href="cadastro.html" id="cad"><img src="./img/caduk.png" alt="" class="dentro"></a>
@@ -32,7 +31,7 @@
                 <textarea name="" id="descricao" class="games"></textarea>
                 <h1>Tags</h1>
                 <div class="tag">
-                    
+
                     <select id="idtag">
                         <option value="">-- Selecione um Gênero --</option>
 
@@ -113,43 +112,52 @@
 
 </html>
 <script>
-    let listalink=[]
-    let listaimg= []
+    let listalink = []
+    let listaimg = []
     let lista = []
     function add() {
-        lista.push(idtag.value)
+        
+        if (!lista.includes(idtag.value)) {
+            lista.push(idtag.value);
+        }
         div_tag.innerHTML = lista
     }
     function addimg() {
-        listaimg.push(idimagem.value)
         div_imagem.innerHTML = ""
-        for(let i=0; i<listaimg.length;i++){
-        div_imagem.innerHTML += `<img src="${listaimg[i]}" alt="" class="games">`
+        if (!listaimg.includes(idimagem.value)) {
+                listaimg.push(idimagem.value);
+            }
+        for (let i = 0; i < listaimg.length; i++) {
+            
+            div_imagem.innerHTML += `<img src="${listaimg[i]}" alt="" class="games">`
         }
     }
-        function addlink() {
-        listalink.push(idlink.value)
+    function addlink() {
         div_link.innerHTML = ""
-        for(let i=0; i<listalink.length;i++){
-        div_link.innerHTML += `${listalink[i]}<br>`
+        if (!listalink.includes(idlink.value)) {
+                listalink.push(idlink.value);
+            }
+        for (let i = 0; i < listalink.length; i++) {
+            
+            div_link.innerHTML += `${listalink[i]}<br>`
         }
     }
-        function rem() {
+    function rem() {
         lista.pop()
         div_tag.innerHTML = lista
     }
     function remimg() {
         listaimg.pop()
         div_imagem.innerHTML = ""
-        for(let i=0; i<listaimg.length;i++){
-        div_imagem.innerHTML += `<img src="${listaimg[i]}" alt="" class="games">`
+        for (let i = 0; i < listaimg.length; i++) {
+            div_imagem.innerHTML += `<img src="${listaimg[i]}" alt="" class="games">`
         }
     }
-        function remlink() {
+    function remlink() {
         listalink.pop()
         div_link.innerHTML = ""
-        for(let i=0; i<listalink.length;i++){
-        div_link.innerHTML += `${listalink[i]}<br>`
+        for (let i = 0; i < listalink.length; i++) {
+            div_link.innerHTML += `${listalink[i]}<br>`
         }
     }
     if (email != null && nome != null) {
@@ -161,46 +169,50 @@
 
     }
     function registrar() {
-        fetch("/catalogo/registrar",{
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        nomeServer: idnome.value,
-                        descricaoServer: descricao.value,
-                        tagServer: idtag.value,
-                        imagemServer: idimagem.value,
-                        linksServer: idlink.value,
-
-                    }),
-                })
-                .then(function (resposta) {
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          cardErro.style.display = "block";
-
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-          setTimeout(() => {
-            window.location = "login.html";
-          }, "2000");
-
-          limparFormulario();
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
+        if (
+            idnome.value == "" ||
+            descricao.value == "" ||
+            lista.length == 0
+        ) {
+            alert("Preencha todos os campos obrigatórios.");
+            return;
         }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
-      });
+        fetch("/catalogo/registrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nomeServer1: idnome.value,
+                descricaoServer: descricao.value,
+                tagServer: lista.join(";"),
+                imagemServer: listaimg.join(";"),
+                linksServer: listalink.join(";"),
+                idUsuarioServer: sessionStorage.ID_USUARIO,
 
-    return false;
-        
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+
+                    setTimeout(() => {
+                        window.location = "jogos.html";
+                    }, "2000");
+
+
+                } else {
+                    throw "Houve um erro ao tentar realizar o cadastro!";
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                finalizarAguardar();
+            });
+
+        return false;
+
     }
 
 </script>
