@@ -40,9 +40,9 @@
             </div>
             <h1>Semana</h1>
             <div class="placements">
-                <div class="segundo"></div>
-                <div class="primeiro"></div>
-                <div class="terceiro"></div>
+                <div class="segundo" id="segundoSemana"></div>
+                <div class="primeiro" id="primeiroSemana"></div>
+                <div class="terceiro" id="terceiroSemana"></div>
             </div>
             <div class="dash">
 
@@ -64,7 +64,11 @@
         document.getElementById("logout").style.display = "none";
 
     }
-    if(dados.length >= 3){
+    fetch("/avaliacao/topMes")
+.then(res => res.json())
+.then(dados => {
+
+   if(dados.length >= 3){
 
     primeiroMes.innerHTML = `
         <h2>${dados[0].pontuacao}</h2>
@@ -81,28 +85,14 @@
         <p>${dados[2].nome}</p>
     `;
 }
-    else{fetch("/avaliacao/topMes")
+});
+    
+
+fetch("/avaliacao/topSemana")
 .then(res => res.json())
 .then(dados => {
 
-    primeiroMes.innerHTML = `
-        <h2>${dados[0].pontuacao}</h2>
-        <p>${dados[0].nome}</p>
-    `;
-
-    segundoMes.innerHTML = `
-        <h2>${dados[1].pontuacao}</h2>
-        <p>${dados[1].nome}</p>
-    `;
-
-    terceiroMes.innerHTML = `
-        <h2>${dados[2].pontuacao}</h2>
-        <p>${dados[2].nome}</p>
-    `;
-
-});
-    }
-    if(dados.length >= 3){
+   if(dados.length >= 3){
     primeiroSemana.innerHTML = `
         <h2>${dados[0].pontuacao}</h2>
         <p>${dados[0].nome}</p>
@@ -118,26 +108,6 @@
         <p>${dados[2].nome}</p>
     `;
 }
-    else{fetch("/avaliacao/topSemana")
-.then(res => res.json())
-.then(dados => {
-
-    primeiroSemana.innerHTML = `
-        <h2>${dados[0].pontuacao}</h2>
-        <p>${dados[0].nome}</p>
-    `;
-
-    segundoSemana.innerHTML = `
-        <h2>${dados[1].pontuacao}</h2>
-        <p>${dados[1].nome}</p>
-    `;
-
-    terceiroSemana.innerHTML = `
-        <h2>${dados[2].pontuacao}</h2>
-        <p>${dados[2].nome}</p>
-    `;
-
 });
-    }
     
 </script>

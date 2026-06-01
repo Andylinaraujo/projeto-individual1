@@ -215,6 +215,10 @@ h1{
   );
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Adds depth */
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
 }
 .terceiro{
 
@@ -228,6 +232,10 @@ h1{
   );
   border-radius: 50%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Adds depth */
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
 }
 .imgrank{
 
